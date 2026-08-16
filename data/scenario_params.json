@@ -1,0 +1,81 @@
+{
+  "scenario_name": "Colombia_Rural_FWA_Uniform_v1",
+  "area": {
+    "width_km": 20.0,
+    "height_km": 10.0,
+    "origin": [
+      0.0,
+      0.0
+    ],
+    "note": "Coordinates in km in a local planar reference frame (x east, y north)."
+  },
+  "radio": {
+    "technology": "5G NR FWA (simplified)",
+    "carrier_freq_ghz": 3.5,
+    "bandwidth_mhz": 40,
+    "noise_figure_db": 7.0,
+    "eirp_dbm": 46.0,
+    "rx_antenna_gain_db": 8.0,
+    "shadowing_sigma_db": 6.0,
+    "clutter_loss_db_by_landclass": {
+      "open": 0.0,
+      "rural": 6.0,
+      "forest": 12.0,
+      "hilly": 10.0
+    },
+    "pathloss_model": "PL(d_km)=128.1+37.6*log10(d_km) + clutter_loss + shadowing",
+    "sinr_thresholds_db": {
+      "coverage_min_sinr_db": -3.0,
+      "outage_sinr_db": -6.0
+    },
+    "spectral_efficiency_model": "SE=log2(1+SINR), capped at 6 bps/Hz"
+  },
+  "demand": {
+    "num_demand_points": 220,
+    "households_total": 2400,
+    "penetration_initial": 0.3,
+    "target_throughput_mbps_per_subscriber": 20,
+    "busy_hour_concurrency": 0.2,
+    "services": {
+      "basic": {
+        "share": 0.7,
+        "target_mbps": 15
+      },
+      "premium": {
+        "share": 0.3,
+        "target_mbps": 30
+      }
+    }
+  },
+  "planning": {
+    "candidate_sites": 36,
+    "max_sites_to_deploy": 12,
+    "sector_options": [
+      1,
+      3
+    ],
+    "tower_height_options_m": [
+      20,
+      30,
+      40
+    ],
+    "interference_model": "Reuse-1; serve by best RSRP among deployed; others interfere.",
+    "min_coverage_population_fraction": 0.85,
+    "min_capacity_satisfied_fraction": 0.8
+  },
+  "economics": {
+    "capex_per_site_usd": 65000,
+    "capex_sector_addon_usd": {
+      "1": 0,
+      "3": 18000
+    },
+    "capex_backhaul_per_site_usd": 12000,
+    "opex_per_site_per_year_usd": 11000,
+    "opex_backhaul_per_year_usd": 3500,
+    "arpu_usd_per_month": 12.0,
+    "install_cost_per_subscriber_usd": 120.0,
+    "discount_rate": 0.1,
+    "analysis_years": 5
+  },
+  "dataset_seed": 20260218
+}
