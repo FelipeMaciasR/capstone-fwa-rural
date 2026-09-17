@@ -5,13 +5,13 @@ Proyecto de Gestión de Telecomunicaciones II enfocado en la planificación y ev
 ## Estructura
 
 - `data/`: dataset y parámetros del escenario.
-- `notebooks/`: notebook base y notebook de trabajo.
-- `docs/`: documentación, supuestos y validaciones.
-- `results/`: gráficas y resultados generados.
+- `Notebooks/`: notebook principal del proyecto con el baseline y el desarrollo incremental por sprint.
+- `Docs/`: documentación, backlog, supuestos y validaciones.
+- `results/`: gráficas y resultados generados automáticamente por el notebook.
 
 ## Ejecución
 
 Instalar las dependencias:
 
 ```bash
-python -m pip install numpy pandas ipykernel
+python -m pip install numpy pandas matplotlib ipykernel
