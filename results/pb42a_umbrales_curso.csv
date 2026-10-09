@@ -1,0 +1,61 @@
+Algoritmo,Umbral cobertura,Umbral capacidad,S mínimo que cumple
+Búsqueda local (profesor),0.8,0.75,3
+Búsqueda local (profesor),0.8,0.8,3
+Búsqueda local (profesor),0.8,0.85,3
+Búsqueda local (profesor),0.8,0.9,4
+Búsqueda local (profesor),0.8,0.95,6
+Búsqueda local (profesor),0.85,0.75,3
+Búsqueda local (profesor),0.85,0.8,3
+Búsqueda local (profesor),0.85,0.85,3
+Búsqueda local (profesor),0.85,0.9,4
+Búsqueda local (profesor),0.85,0.95,6
+Búsqueda local (profesor),0.9,0.75,6
+Búsqueda local (profesor),0.9,0.8,6
+Búsqueda local (profesor),0.9,0.85,6
+Búsqueda local (profesor),0.9,0.9,6
+Búsqueda local (profesor),0.9,0.95,6
+Búsqueda local (profesor),0.95,0.75,10
+Búsqueda local (profesor),0.95,0.8,10
+Búsqueda local (profesor),0.95,0.85,10
+Búsqueda local (profesor),0.95,0.9,10
+Búsqueda local (profesor),0.95,0.95,10
+ILS (Sprint 3),0.8,0.75,3
+ILS (Sprint 3),0.8,0.8,3
+ILS (Sprint 3),0.8,0.85,3
+ILS (Sprint 3),0.8,0.9,4
+ILS (Sprint 3),0.8,0.95,6
+ILS (Sprint 3),0.85,0.75,3
+ILS (Sprint 3),0.85,0.8,3
+ILS (Sprint 3),0.85,0.85,3
+ILS (Sprint 3),0.85,0.9,4
+ILS (Sprint 3),0.85,0.95,6
+ILS (Sprint 3),0.9,0.75,6
+ILS (Sprint 3),0.9,0.8,6
+ILS (Sprint 3),0.9,0.85,6
+ILS (Sprint 3),0.9,0.9,6
+ILS (Sprint 3),0.9,0.95,6
+ILS (Sprint 3),0.95,0.75,8
+ILS (Sprint 3),0.95,0.8,8
+ILS (Sprint 3),0.95,0.85,8
+ILS (Sprint 3),0.95,0.9,8
+ILS (Sprint 3),0.95,0.95,8
+Recocido simulado (Sprint 4),0.8,0.75,3
+Recocido simulado (Sprint 4),0.8,0.8,3
+Recocido simulado (Sprint 4),0.8,0.85,3
+Recocido simulado (Sprint 4),0.8,0.9,4
+Recocido simulado (Sprint 4),0.8,0.95,6
+Recocido simulado (Sprint 4),0.85,0.75,3
+Recocido simulado (Sprint 4),0.85,0.8,3
+Recocido simulado (Sprint 4),0.85,0.85,3
+Recocido simulado (Sprint 4),0.85,0.9,4
+Recocido simulado (Sprint 4),0.85,0.95,6
+Recocido simulado (Sprint 4),0.9,0.75,6
+Recocido simulado (Sprint 4),0.9,0.8,6
+Recocido simulado (Sprint 4),0.9,0.85,6
+Recocido simulado (Sprint 4),0.9,0.9,6
+Recocido simulado (Sprint 4),0.9,0.95,6
+Recocido simulado (Sprint 4),0.95,0.75,8
+Recocido simulado (Sprint 4),0.95,0.8,8
+Recocido simulado (Sprint 4),0.95,0.85,8
+Recocido simulado (Sprint 4),0.95,0.9,8
+Recocido simulado (Sprint 4),0.95,0.95,8
