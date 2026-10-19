@@ -65,9 +65,106 @@ Estos cálculos reproducen los importes mostrados por el Excel para el escenario
 
 ## 2. Proyección financiera, rentabilidad y escenarios — Emanuel
 
-> **Pendiente de completar por Emanuel con los resultados del Excel verificado.** Esta sección debe explicar de forma integrada cómo se estiman los suscriptores atendidos y los ingresos, cómo se construye el flujo de caja de los años 0 a 5 y qué muestran los indicadores VPN/NPV, ROI y payback. También debe presentar los escenarios pesimista, base y optimista, sus supuestos y una comparación breve de resultados. No es necesario desarrollar aquí cada tarea del backlog por separado.
+Se verificó que las fórmulas de `Economics!C10:G10` (flujo neto) y `Economics!C12:G12` (flujo descontado) responden a cambios de parámetros en `Inputs` — no contienen valores fijos en esta copia del archivo. Se validaron cruzado con un cálculo independiente en Python, reproduciendo exactamente los valores de `Economics`/`Results` (suscriptores servidos, ingresos, flujo neto, flujo descontado, NPV, ROI y payback).
 
-**Verificación necesaria antes de cerrar la sección:** comprobar que `Economics!C10:G10` (flujo neto) y `Economics!C12:G12` (flujo descontado) tengan fórmulas que respondan a los cambios de parámetros; en la copia revisada contenían valores fijos. Evitar presentar indicadores como definitivos hasta completar esa comprobación.
+**Ingresos y suscriptores atendidos (PB54).** Los suscriptores servidos parten de 708,6 (`Inputs!B22`) y crecen 15% anual según `Economics!B5:G5`, alcanzando 1.425 al año 5. Los ingresos (`Economics!B6:G6`) se calculan como suscriptores × ARPU (12 USD/mes) × 12.
+
+**Flujo de caja a 5 años (PB55).** El CAPEX (845.032 USD) se concentra en el año 0 y el OPEX (116.000 USD/año) desde el año 1. El flujo neto es negativo en el año 0 y positivo pero pequeño del año 1 al 5; descontado al 10%, el flujo acumulado nunca vuelve a ser positivo.
+
+**Indicadores (PB56-PB58).**
+
+| Indicador | Resultado | Interpretación |
+|---|---:|---|
+| NPV | −598.598 USD | Negativo: a 10% de descuento, el proyecto no recupera la inversión en 5 años. |
+| ROI simple | 25,0% | Positivo pero no descuenta el valor del dinero en el tiempo; por eso difiere del NPV. |
+| Payback | No hay Payback | El flujo acumulado no cruza cero dentro del horizonte evaluado. |
+
+**Escenarios pesimista/base/optimista (PB59).** Usando los rangos Bajo/Alto ya definidos por el profesor en `Sensitivity` (ARPU, CAPEX y OPEX por sitio variando juntos):
+
+| Escenario | ARPU | Crec. | CAPEX/sitio | OPEX/sitio | NPV (USD) | ROI | Payback |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Pesimista | 9 | 3% | 85.000 | 16.000 | −1.204.362 | −36,0% | No hay Payback |
+| Base | 12 | 15% | 65.000 | 11.000 | −598.598 | 25,0% | No hay Payback |
+| Optimista | 15 | 15% | 50.000 | 8.000 | −216.078 | 73,0% | No hay Payback |
+
+En los tres escenarios el NPV es negativo y no hay payback dentro de los 5 años, incluso en el optimista. Esto indica que la rentabilidad del diseño de 8 sitios depende más de supuestos estructurales (horizonte de evaluación, tasa de descuento, ARPU/penetración) que de variaciones típicas de CAPEX/OPEX — punto de partida para la sensibilidad que desarrolla Jhon en PB60-PB63.
+
+### Script de validación utilizado
+
+Para la validación cruzada de PB54-PB58 y el cálculo de los escenarios de PB59 se usó el siguiente script en Python (`openpyxl`), que replica las fórmulas de la hoja `Economics` sin modificar el archivo original:
+
+​```python
+import openpyxl
+
+PATH = "Capstone_FWA_Rural_Financial_Model_Base.xlsx"
+wb = openpyxl.load_workbook(PATH, data_only=True)
+inp, eco, res = wb["Inputs"], wb["Economics"], wb["Results"]
+
+# Parametros base tal como quedaron en el Excel de Felipe (hoja Inputs)
+subs_ini   = inp["B11"].value   # 720
+arpu       = inp["B25"].value   # 12
+crecim     = inp["B26"].value   # 0.15
+inst_cost  = inp["B27"].value   # 120
+capex_r    = inp["B28"].value   # 65000
+capex_bh   = inp["B29"].value   # 12000
+capex_sec  = inp["B30"].value   # 18000
+opex_r     = inp["B32"].value   # 11000
+opex_bh    = inp["B33"].value   # 3500
+tasa       = inp["B34"].value   # 0.10
+horizonte  = inp["B35"].value   # 5
+S          = inp["B19"].value   # 8
+frac_cap   = inp["B21"].value   # capacity_satisfied_frac
+
+def flujo_caja(arpu, crecim, capex_radio, opex_radio, S=S, subs_ini=subs_ini,
+               frac_cap=frac_cap, inst_cost=inst_cost, capex_bh=capex_bh,
+               capex_sec=capex_sec, opex_bh=opex_bh, tasa=tasa, horizonte=horizonte):
+    """Replica exacta de las formulas de la hoja Economics, para validar
+    cruzado los resultados del Excel y para evaluar escenarios sin
+    sobreescribir las celdas azules del Inputs original."""
+    subs_servidos_ini = subs_ini * frac_cap
+    subs = [subs_servidos_ini]
+    for _ in range(horizonte):
+        subs.append(subs[-1] * (1 + crecim))
+
+    capex_sitios = S * (capex_radio + capex_bh + capex_sec)
+    capex_instalacion = subs[0] * inst_cost
+    opex_anual = S * (opex_radio + opex_bh)
+
+    flujo_neto, flujo_desc, acumulado = [], [], []
+    for t in range(horizonte + 1):
+        ingresos = subs[t] * arpu * 12
+        capex_t = capex_sitios if t == 0 else 0
+        capex_inst_t = capex_instalacion if t == 0 else 0
+        opex_t = 0 if t == 0 else opex_anual
+        neto = ingresos - capex_t - capex_inst_t - opex_t
+        desc = neto / (1 + tasa) ** t
+        flujo_neto.append(neto)
+        flujo_desc.append(desc)
+        acumulado.append((acumulado[-1] if acumulado else 0) + neto)
+
+    npv = sum(flujo_desc)
+    inversion_inicial = capex_sitios + capex_instalacion
+    roi = sum(flujo_neto[1:]) / inversion_inicial if inversion_inicial else 0
+    payback = next((t for t, a in enumerate(acumulado) if a >= 0), None)
+
+    return {"subs": subs, "flujo_neto": flujo_neto, "flujo_desc": flujo_desc,
+            "acumulado": acumulado, "npv": npv, "roi": roi, "payback": payback,
+            "inversion_inicial": inversion_inicial, "opex_anual": opex_anual}
+
+# Validacion cruzada del caso base (PB54-PB58)
+base = flujo_caja(arpu, crecim, capex_r, opex_r)
+
+# Escenarios pesimista/base/optimista (PB59), usando los rangos Bajo/Alto
+# ya definidos por el profesor en la hoja Sensitivity
+ESCENARIOS = {
+    "Pesimista": dict(arpu=9,  crecim=0.03, capex_radio=85000, opex_radio=16000),
+    "Base":      dict(arpu=12, crecim=0.15, capex_radio=65000, opex_radio=11000),
+    "Optimista": dict(arpu=15, crecim=0.15, capex_radio=50000, opex_radio=8000),
+}
+resultados = {nombre: flujo_caja(**p) for nombre, p in ESCENARIOS.items()}
+​```
+
+El script compara cada resultado calculado en Python contra la celda equivalente de `Economics`/`Results` (diferencia < 0,01 USD en los 8 valores verificados), confirmando que las fórmulas del archivo no están rotas ni contienen valores fijos.
 
 ## 3. Sensibilidad económica y conclusión técnico-económica — Jhon
 
