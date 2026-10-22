@@ -178,4 +178,4 @@ El script compara cada resultado calculado en Python contra la celda equivalente
 
 **Recomendación.** El despliegue no es recomendable como inversión puramente privada con los supuestos actuales. Sería recomendable si se cuenta con cofinanciación o subsidio cercano a 598.598 USD en valor presente (por ejemplo, programas estatales de conectividad rural), o con una combinación de mayor ARPU, mayor adopción de suscriptores y menor CAPEX por sitio.
 
-**Cierre del documento:** una vez completadas las tres secciones, revisar la consistencia de las cifras entre `Inputs`, `Economics`, `Results` y `Sensitivity`, y utilizar esta documentación como soporte de la tercera entrega y la exposición de los Sprints 4 y 5.
+

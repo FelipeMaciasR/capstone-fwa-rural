@@ -55,31 +55,31 @@ El candidato **S = 8** resulta atractivo por su mayor J entre los diseños encon
 
 ### Función objetivo frente al número de sitios
 
-![Función objetivo por algoritmo](../Results/pb45_1_J_vs_S_por_algoritmo.png)
+![Función objetivo por algoritmo](../results/pb45_1_J_vs_S_por_algoritmo.png)
 
 El máximo de J encontrado se sitúa alrededor de ocho estaciones; incrementar S no implica necesariamente mejorar la función objetivo, pues también aumenta su penalización.
 
 ### Frente de Pareto y diseños candidatos
 
-![Frente de Pareto y candidatos](../Results/pb45_2_pareto_candidatos.png)
+![Frente de Pareto y candidatos](../results/pb45_2_pareto_candidatos.png)
 
 Se observa el compromiso entre desplegar menos estaciones y alcanzar mayores porcentajes de cobertura y capacidad satisfecha.
 
 ### Sensibilidad a los pesos
 
-![Sensibilidad a los pesos](../Results/pb45_3_sensibilidad_pesos.png)
+![Sensibilidad a los pesos](../results/pb45_3_sensibilidad_pesos.png)
 
 La penalización por infraestructura influye en la cantidad de estaciones elegida como óptima dentro de los valores analizados.
 
 ### Sensibilidad del umbral de SINR
 
-![Sensibilidad al umbral de SINR](../Results/pb45_4_sensibilidad_umbral_sinr.png)
+![Sensibilidad al umbral de SINR](../results/pb45_4_sensibilidad_umbral_sinr.png)
 
 Al endurecer el umbral de SINR, disminuye la fracción de hogares clasificados como cubiertos en los escenarios estudiados.
 
 ### Estabilidad y tiempos de ejecución
 
-![Robustez y tiempos](../Results/pb45_5_robustez_y_tiempo.png)
+![Robustez y tiempos](../results/pb45_5_robustez_y_tiempo.png)
 
 Las repeticiones con diferentes semillas muestran poca dispersión de J para ILS y SA frente a la búsqueda local. Los tiempos son orientativos y no representan un presupuesto computacional idéntico entre algoritmos.
 
